@@ -19,6 +19,11 @@
   margin-top: 20px;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500&display=swap");
+.fontChange {
+  font-family: "Baloo Bhai 2", cursive;
+}
+
 .pc,
 .sp {
   width: 20%;
@@ -95,19 +100,31 @@ table {
   box-shadow: 2px 5px;
 }
 
-.small-screen-only{
-  @media (max-width: $breakpoint-xs-max){
-    display: block
+.small-screen-only {
+  @media (max-width: $breakpoint-xs-max) {
+    display: block;
   }
-  @media (min-width: $breakpoint-sm-min){
-    display: none
+  @media (min-width: $breakpoint-sm-min) {
+    display: none;
   }
 }
-.large-screen-only{
-@media (max-width: $breakpoint-xs-max){
-    display: none
+.large-screen-only {
+  @media (max-width: $breakpoint-xs-max) {
+    display: none;
+  }
+  @media (min-width: $breakpoint-sm-min) {
+    display: block;
+  }
 }
-@media (min-width: $breakpoint-sm-min){
-    display: block
+
+.backSymp {
+  background: linear-gradient(
+    0deg,
+    rgba(187, 232, 210, 1) 10%,
+    rgba(146, 241, 196, 1) 100%
+  );
 }
+
+.cardBack {
+  background-color: rgba(255, 255, 255, 0.5);
 }

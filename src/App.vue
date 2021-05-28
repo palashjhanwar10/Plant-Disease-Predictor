@@ -1,10 +1,10 @@
 <template>
   <div id="q-app">
-    <router-view />
+    <router-view class="fontChange" />
   </div>
 </template>
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>

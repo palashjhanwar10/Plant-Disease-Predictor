@@ -1,34 +1,70 @@
 <template>
-  <q-page class="constrain-more q-pa-md ">
-    <q-breadcrumbs class="text-grey" style="font-size:19px">
-      <q-breadcrumbs-el label="Take Photo" icon="camera" to="/camera" />
-      <q-breadcrumbs-el
-        label="File Upload"
-        icon="eva-attach-outline"
-        to="/getstarted"
-      />
-    </q-breadcrumbs>
+  <q-page class="text-center">
+    <span class="large-screen-only">
+      <img src="Picture1.png" />
+    </span>
+    <img src="Picture1.png" class="fit small-screen-only" />
+    <div class="constrain-more q-pa-md">
+      <q-breadcrumbs class="text-grey" style="font-size:19px">
+        <q-breadcrumbs-el label="Take Photo" icon="camera" to="/camera" />
+        <q-breadcrumbs-el
+          label="File Upload"
+          icon="eva-attach-outline"
+          to="/getstarted"
+        />
+      </q-breadcrumbs>
 
-    <div class="camera-frame q-pa-md">
-      <canvas ref="canvas" class="full-width" height="240" />
+      <div class="camera-frame q-pa-md">
+        <canvas ref="canvas" class="fit" />
+      </div>
+      <div class="text-center q-pa-md">
+        <q-file
+          @input="captureImageFallback"
+          v-model="imageUpload"
+          label="Choose an image"
+          accept="image/*"
+          outlined
+        >
+          <template v-slot:prepend>
+            <q-icon name="eva-attach-outline" />
+          </template>
+        </q-file>
+        <br />
+        <q-btn
+          style="background-color:rgb(71, 107, 50);color:white"
+          @click="handleSubmit"
+          label="Analyze"
+        />
+      </div>
     </div>
-    <div class="text-center q-pa-md">
-      <q-file
-        @input="captureImageFallback"
-        v-model="imageUpload"
-        label="Choose an image"
-        accept="image/*"
-        outlined
+    <div v-if="sendResult" class="back text-center text-green-9 text-bold ">
+      <span class="text-h4 large-screen-only">
+        Predicted class of image is {{ this.result }}.
+      </span>
+      <span class="text-h6 small-screen-only">
+        Predicted class of image is {{ this.result }}.
+      </span>
+      <q-btn
+        type="a"
+        class="q-mt-xl large-screen-only"
+        flat
+        no-caps
+        size="xl"
+        to="/solution"
+        label="To know how to treat the disease , please visit out solution page"
+        icon-right="eva-diagonal-arrow-right-up-outline"
+      ></q-btn>
+      <q-btn
+        type="a"
+        class="q-mt-xl small-screen-only"
+        flat
+        no-caps
+        size="sm"
+        to="/solution"
+        icon-right="eva-diagonal-arrow-right-up-outline"
+        >To know how to treat the disease , please visit out solution
+        page</q-btn
       >
-        <template v-slot:prepend>
-          <q-icon name="eva-attach-outline" />
-        </template>
-      </q-file>
-      <br />
-      <q-btn style="background-color:rgb(71, 107, 50);color:white" @click="handleSubmit" label="Analyze"  />
-    </div>
-    <div v-if="sendResult" class="text-center">
-      <h6>Predicted class of image is {{ this.result }}.</h6>
     </div>
   </q-page>
 </template>
@@ -48,6 +84,7 @@ export default {
   },
   methods: {
     captureImageFallback(file) {
+      console.log("Hello");
       this.image = file;
       this.sendResult = false;
       let canvas = this.$refs.canvas;
@@ -65,6 +102,8 @@ export default {
         img.src = event.target.result;
       };
       reader.readAsDataURL(file);
+
+      console.log(this.image);
     },
     getImageResult(id) {
       this.$axios.get(`http://127.0.0.1:8000/api/plants/${id}/`).then(res => {
@@ -75,7 +114,6 @@ export default {
           this.timer = void 0;
         }, 2500);
       });
-      Loading.hide();
     },
     handleSubmit(e) {
       this.$q.loading.show();
@@ -99,7 +137,6 @@ export default {
   }
 };
 </script>
-
 <style lang="sass">
 .camera-frame
     border: 2px solid $grey-10
